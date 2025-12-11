@@ -56,7 +56,7 @@ export const useSlotScout = () => {
         return () => window.removeEventListener('message', handleSlotScoutResults);
     }, []);
 
-    const findSlots = useCallback((url: string, timezone: string) => {
+    const findSlots = useCallback((_url: string, _timezone: string) => {
         setIsLoading(true);
         setError(null);
         setResults(null);

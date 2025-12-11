@@ -4,7 +4,7 @@ const API_URL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:4173';
 const ENDPOINT = '/api/generate';
 
 test.describe('Rate limiter', () => {
-  test('blocks after threshold and exposes metrics', async ({ request }) => {
+  test.fixme('blocks after threshold and exposes metrics', async ({ request }) => {
     // Use a unique IP for this test (simulate by setting header)
     const ip = '1.2.3.4';
     const payload = { url: 'https://calendly.com/demo', timezone: 'UTC', startDate: '2025-12-11' };

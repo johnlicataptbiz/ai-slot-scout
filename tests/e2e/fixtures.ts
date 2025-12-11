@@ -1,4 +1,6 @@
 import { test as base, chromium, type BrowserContext } from '@playwright/test';
+import fs from 'fs';
+import os from 'os';
 import path from 'path';
 
 export const test = base.extend<{
@@ -7,15 +9,25 @@ export const test = base.extend<{
 }>({
     context: async ({ }, use) => {
         const pathToExtension = path.join(__dirname, '../../dist');
-        const context = await chromium.launchPersistentContext('', {
+        const userDataDir = await fs.promises.mkdtemp(path.join(os.tmpdir(), 'chrome-user-data-'));
+
+        const context = await chromium.launchPersistentContext(userDataDir, {
             headless: false,
             args: [
                 `--disable-extensions-except=${pathToExtension}`,
                 `--load-extension=${pathToExtension}`,
             ],
         });
+
         await use(context);
+
         await context.close();
+        // attempt cleanup (might fail on windows if locked, but okay for mac/linux)
+        try {
+            await fs.promises.rm(userDataDir, { recursive: true, force: true });
+        } catch (e) {
+            // ignore cleanup errors
+        }
     },
     extensionId: async ({ context }, use) => {
         // Since we don't have a background service worker, we grab the ID from chrome://extensions

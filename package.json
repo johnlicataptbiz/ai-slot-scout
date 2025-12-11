@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.33.0",
-    "@sentry/node": "^7.71.0",
+    "@sentry/node": "^10.30.0",
     "@sentry/react": "^7.71.0",
     "@sentry/tracing": "^7.71.0",
     "ioredis": "^5.8.2",

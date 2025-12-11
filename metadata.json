@@ -1,0 +1,4 @@
+{
+  "name": "AI Slot Scout",
+  "description": "An intelligent assistant that finds and suggests optimal meeting times from Calendly or HubSpot links. Using AI, it scans a scheduling page, identifies available slots in your desired timezone, and crafts ready-to-send messages with smartly selected times."
+}

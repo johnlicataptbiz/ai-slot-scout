@@ -1,0 +1,37 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "AI Slot Scout Metrics",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "Rate Limiter Blocks",
+        "targets": [
+          { "expr": "app_rate_limiter_blocked_total", "legendFormat": "Blocked Requests" }
+        ],
+        "datasource": "Prometheus",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 }
+      },
+      {
+        "type": "graph",
+        "title": "AI Generate Latency",
+        "targets": [
+          { "expr": "histogram_quantile(0.95, sum(rate(ai_generate_duration_seconds_bucket[5m])) by (le))", "legendFormat": "95th Percentile" }
+        ],
+        "datasource": "Prometheus",
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 }
+      },
+      {
+        "type": "graph",
+        "title": "AI Generate Errors",
+        "targets": [
+          { "expr": "increase(ai_generate_errors_total[5m])", "legendFormat": "Errors" }
+        ],
+        "datasource": "Prometheus",
+        "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 }
+      }
+    ],
+    "schemaVersion": 30,
+    "version": 1
+  }
+}

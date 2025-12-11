@@ -1,0 +1,29 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint --if-present
+      - run: npm run typecheck --if-present
+      - run: npm test --if-present
+      - run: npm run build --if-present
+
+      # Start a background preview server for Playwright E2E tests
+      - name: Start preview server
+        run: |
+          npm run preview &
+          # wait for server to be available
+          n=0; until curl -sSf http://localhost:4173 >/dev/null || [ $n -ge 30 ]; do n=$((n+1)); sleep 1; done
+
+      - name: Run Playwright tests
+        uses: microsoft/playwright-github-action@v1
+        with:
+          run: npx playwright test --reporter=list
